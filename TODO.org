@@ -1,0 +1,8 @@
+* things to check out
+** mongodb
+** backbone.js, express.js, geddy.js
+** underscore.js
+** jquery-tmpl
+** jquery 1.4.2
+** list of node projects: http://github.com/ry/node/wiki/modules
+** good tutorial: http://net.tutsplus.com/tutorials/javascript-ajax/learning-serverside-javascript-with-node-js/
