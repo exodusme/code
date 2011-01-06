@@ -1,42 +1,40 @@
 (function() {
-  var fs, host, http, path, port, server, sys, url;
+  var HOST, PORT, SITE_ROOT, express, fs, path, server, sys, url;
   sys = require("sys");
-  http = require("http");
   url = require("url");
   path = require("path");
   fs = require("fs");
-  host = "localhost";
-  port = "8080";
-  server = http.createServer(function(request, response) {
-    var filename, uri;
-    uri = url.parse(request.url).pathname;
-    filename = path.join(process.cwd(), uri);
-    return path.exists(filename, function(exists) {
-      if (!exists) {
-        response.writeHead(404, {
+  require.paths.push('/usr/local/lib/node');
+  express = require('express');
+  HOST = "localhost";
+  PORT = "8080";
+  SITE_ROOT = process.cwd() + '/';
+  server = express.createServer();
+  server.configure('development', function() {
+    server.use(express.logger());
+    return server.use(express.errorHandler({
+      dumpExceptions: true,
+      showStack: true
+    }));
+  });
+  server.get('/', function(req, res) {
+    var filename;
+    filename = SITE_ROOT + 'prelaunch.html';
+    return fs.readFile(filename, "binary", function(err, file) {
+      if (err) {
+        res.writeHead(500, {
           "Content-Type": "text/plain"
         });
-        response.write("404 Not Found\n");
-        response.write("" + path + " does not exist on this site.\n");
-        response.end();
+        res.write("500 Internal Server Error\n");
+        res.write(err + "\n");
+        res.end();
         return;
       }
-      return fs.readFile(filename, "binary", function(err, file) {
-        if (err) {
-          response.writeHead(500, {
-            "Content-Type": "text/plain"
-          });
-          response.write("500 Internal Server Error\n");
-          response.write(err + "\n");
-          response.end();
-          return;
-        }
-        response.writeHead(200);
-        response.write(file, "binary");
-        return response.end();
-      });
+      res.writeHead(200);
+      res.write(file, 'binary');
+      return res.end();
     });
   });
-  server.listen(port, host);
-  sys.puts("Server running at " + host + ":" + port);
+  server.listen(PORT, HOST);
+  sys.puts("Server running at " + HOST + ":" + PORT);
 }).call(this);
