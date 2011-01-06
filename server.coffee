@@ -7,6 +7,7 @@ fs = require "fs"
 # Third party
 require.paths.push '/usr/local/lib/node'
 express = require 'express'
+jqtpl = require 'jqtpl'
 
 # Globals
 HOST = "localhost"
@@ -15,24 +16,22 @@ SITE_ROOT = process.cwd() + '/'
 
 server = express.createServer()
 
+# Configure the dev environment
+# Add all middleware options here
 server.configure 'development', ->
   server.use express.logger()
   server.use express.errorHandler {
     dumpExceptions: true,
     showStack: true,}
+  server.use express.bodyDecoder()
+
+server.set 'views', __dirname
+server.set 'view engine', 'html'
+server.register '.html', jqtpl
+server.set 'view options', {'layout': false}
 
 server.get '/', (req, res) ->
-  filename = SITE_ROOT + 'prelaunch.html'
-  fs.readFile filename, "binary", (err, file) ->
-    if err
-      res.writeHead 500, {"Content-Type": "text/plain"}
-      res.write "500 Internal Server Error\n"
-      res.write err + "\n"
-      res.end()
-      return
-    res.writeHead 200
-    res.write file, 'binary'
-    res.end()
+  res.render 'prelaunch.html'
 
 server.listen PORT, HOST
 sys.puts "Server running at #{HOST}:#{PORT}"
