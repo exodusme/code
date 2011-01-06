@@ -1,0 +1,11 @@
+* current stack
+** mongodb
+** mongoose
+** node.js
+** express
+** jqtpl (node port of jquery-tmpl)
+** backbone
+** jquery
+* things to check out
+** list of node projects: http://github.com/ry/node/wiki/modules
+** good tutorial: http://net.tutsplus.com/tutorials/javascript-ajax/learning-serverside-javascript-with-node-js/
