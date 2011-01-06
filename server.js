@@ -28,6 +28,10 @@
   server.get('/', function(req, res) {
     return res.render('prelaunch.html');
   });
+  server.post('/', function(req, res) {
+    console.log(req.body);
+    return res.send();
+  });
   server.listen(PORT, HOST);
   sys.puts("Server running at " + HOST + ":" + PORT);
 }).call(this);

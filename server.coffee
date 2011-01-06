@@ -33,5 +33,9 @@ server.set 'view options', {'layout': false}
 server.get '/', (req, res) ->
   res.render 'prelaunch.html'
 
+server.post '/', (req, res) ->
+  console.log req.body
+  res.send()
+
 server.listen PORT, HOST
 sys.puts "Server running at #{HOST}:#{PORT}"

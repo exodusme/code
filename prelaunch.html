@@ -11,6 +11,14 @@
       }
     </style>
     <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('form').submit(function() {
+          $('form').hide();
+          $('#success-msg').show();
+        });
+      });
+    </script>
   </head>
   <body>
     <h1>Exodus.me</h1>
@@ -27,5 +35,8 @@
       <input type="checkbox" name="services" value="home"> Finding a new home<br />
       <input type="submit" value="Submit" />
     </form>
+    <p id="success-msg" style="display: none;">
+      Thank you for your interest. We will contact you when our services have launched.
+    </p>
   </body>
 </html>
